@@ -1,0 +1,36 @@
+int sensorPin = 0;
+int led = 2;
+
+void setup() {
+  pinMode(2, OUTPUT);
+  Serial.begin(9600); // Start Serial Communication
+}
+ 
+void loop() {
+  
+  // read the analog signal from the sensor
+  int reading = analogRead(sensorPin);  
+ 
+  // convert the reading into voltage
+  float voltage = reading * 5.0;
+  voltage /= 1024.0; 
+  
+  // Convert the 10 mV per defree with an offset of 500mV to degrees
+  float temp = (voltage - 0.5) * 100;
+ 
+  // Print the Temperature
+  Serial.print(temp);
+  Serial.println(" degrees C");
+  
+  //condition to check if temperature is above a certain level to turn on or off the LED
+  if (temp > 40)
+  {
+    digitalWrite(led, HIGH);
+  }
+  if (temp < 40)
+  {
+    digitalWrite(led, LOW);
+  }
+ 
+  delay(1000); // delay for 1 second.
+}
