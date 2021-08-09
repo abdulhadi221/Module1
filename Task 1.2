@@ -1,0 +1,36 @@
+#define led 10
+#define button 2
+#define sensor A0
+volatile byte state = LOW;
+
+
+void setup() 
+{
+  pinMode(led,OUTPUT);
+  pinMode(button, INPUT_PULLUP);
+  pinMode(sensor, INPUT);
+  Serial.begin(9600);
+  attachInterrupt(digitalPinToInterrupt(button),blink,FALLING);
+}
+ 
+void loop()
+{	
+  	int sensor_reading = analogRead(sensor);
+    float voltage =  sensor_reading * 5.0;
+    voltage /= 1024.0;
+    float temp = (voltage - 0.5) * 100;
+    Serial.print(temp);
+    Serial.println(" Degree C");
+  	delay(1000);
+    //if (temp > 40)
+  	//{
+    	//digitalWrite(led, state);
+  	//}
+  	digitalWrite(led, state);
+  
+}
+
+void blink()
+{
+  state = !state;
+}
